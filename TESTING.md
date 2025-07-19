@@ -10,7 +10,6 @@
 
 1. **NPM only** – use `npm run test`, `npm run test:watch`, `npm run e2e`.  No pnpm.
 2. **Layered coverage, heavy at the bottom**:
-
    * **Unit** → pure functions & hooks.
    * **Component** → React Testing Library + Vitest.
    * **Integration** → page/route behaviour (mode switching, auth, API contracts).
@@ -107,3 +106,7 @@ export function buildFilm(overrides = {}): Film {
 ```
 
 Use builders in tests to keep fixtures short and deterministic.
+
+## 7. Hooks
+
+Once you've got the testing framework set up and installed please create some Claude Code hooks in order to make sure that tests and linters etc are being run.
