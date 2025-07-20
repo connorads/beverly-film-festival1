@@ -1,0 +1,14 @@
+#!/bin/bash
+# Pre-task hook to ensure environment is ready
+
+echo "🔧 Checking development environment..."
+
+# Ensure dependencies are installed
+if [ ! -d "node_modules" ]; then
+  echo "📦 Installing dependencies..."
+  npm install
+fi
+
+# Run tests to ensure baseline
+echo "🧪 Running baseline tests..."
+npm test -- --run --reporter=dot

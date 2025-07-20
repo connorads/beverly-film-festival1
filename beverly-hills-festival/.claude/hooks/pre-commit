@@ -1,0 +1,20 @@
+#!/bin/bash
+# Pre-commit hook to run tests and linting
+
+echo "🧪 Running tests before commit..."
+npm test
+
+if [ $? -ne 0 ]; then
+  echo "❌ Tests failed. Please fix before committing."
+  exit 1
+fi
+
+echo "✨ Running linter..."
+npm run lint
+
+if [ $? -ne 0 ]; then
+  echo "❌ Linting failed. Please fix before committing."
+  exit 1
+fi
+
+echo "✅ All checks passed!"

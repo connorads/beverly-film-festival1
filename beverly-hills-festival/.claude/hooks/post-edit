@@ -1,0 +1,15 @@
+#!/bin/bash
+# Post-edit hook to run relevant tests after file changes
+
+FILE=$1
+
+# Run tests for the edited file if it exists
+if [[ $FILE == *.tsx ]] || [[ $FILE == *.ts ]]; then
+  echo "🧪 Running tests for $FILE..."
+  npm test -- --run --reporter=verbose $(echo $FILE | sed 's/\.tsx\?/\.test\.tsx?/g') 2>/dev/null
+  
+  # If no specific test file, run all tests
+  if [ $? -ne 0 ]; then
+    npm test -- --run
+  fi
+fi
