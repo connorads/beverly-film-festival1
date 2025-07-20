@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/context/auth';
 import { useSiteMode } from '@/lib/context/site-mode';
+import type { SiteMode } from '@/lib/types';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -28,7 +29,7 @@ export function ProtectedRoute({
       // Redirect to appropriate login page
       if (siteMode === 'admin') {
         router.push('/admin/login');
-      } else if (siteMode === 'filmmaker') {
+      } else if (siteMode === ('filmmaker' as SiteMode)) {
         router.push('/filmmaker/login');
       } else {
         router.push('/login');
@@ -48,7 +49,7 @@ export function ProtectedRoute({
       return;
     }
 
-    if (siteMode === 'filmmaker' && user && user.role !== 'filmmaker') {
+    if (siteMode === ('filmmaker' as SiteMode) && user && user.role !== 'filmmaker') {
       router.push('/unauthorized');
       return;
     }

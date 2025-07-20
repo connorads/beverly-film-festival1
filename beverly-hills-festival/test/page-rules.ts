@@ -31,7 +31,7 @@ export const PAGE_RULES: PageRule[] = [
     path: '/',
     name: 'Home',
     description: 'Festival homepage with featured films and announcements',
-    modes: ['public', 'admin'],
+    modes: ['public'],
     requiredRoles: ['anonymous'],
     showInNavigation: true,
     navigationOrder: 1
@@ -40,7 +40,7 @@ export const PAGE_RULES: PageRule[] = [
     path: '/films',
     name: 'Films',
     description: 'Browse all films in the festival',
-    modes: ['public', 'admin'],
+    modes: ['public'],
     requiredRoles: ['anonymous'],
     showInNavigation: true,
     navigationOrder: 2,
@@ -49,7 +49,7 @@ export const PAGE_RULES: PageRule[] = [
         path: '/films/:id',
         name: 'Film Detail',
         description: 'Detailed view of a specific film',
-        modes: ['public', 'admin'],
+        modes: ['public'],
         requiredRoles: ['anonymous'],
         showInNavigation: false
       },
@@ -57,7 +57,7 @@ export const PAGE_RULES: PageRule[] = [
         path: '/films/category/:category',
         name: 'Films by Category',
         description: 'Browse films by category',
-        modes: ['public', 'admin'],
+        modes: ['public'],
         requiredRoles: ['anonymous'],
         showInNavigation: false
       }
@@ -67,7 +67,7 @@ export const PAGE_RULES: PageRule[] = [
     path: '/schedule',
     name: 'Schedule',
     description: 'Festival screening schedule',
-    modes: ['public', 'admin'],
+    modes: ['public'],
     requiredRoles: ['anonymous'],
     showInNavigation: true,
     navigationOrder: 3
@@ -76,7 +76,7 @@ export const PAGE_RULES: PageRule[] = [
     path: '/venues',
     name: 'Venues',
     description: 'Festival venue information',
-    modes: ['public', 'admin'],
+    modes: ['public'],
     requiredRoles: ['anonymous'],
     showInNavigation: true,
     navigationOrder: 4
@@ -85,7 +85,7 @@ export const PAGE_RULES: PageRule[] = [
     path: '/tickets',
     name: 'Tickets',
     description: 'Purchase festival tickets and passes',
-    modes: ['public', 'admin'],
+    modes: ['public'],
     requiredRoles: ['anonymous'],
     showInNavigation: true,
     navigationLabel: 'Buy Tickets',
@@ -95,7 +95,7 @@ export const PAGE_RULES: PageRule[] = [
     path: '/awards',
     name: 'Awards',
     description: 'Festival awards and competitions',
-    modes: ['public', 'admin'],
+    modes: ['public'],
     requiredRoles: ['anonymous'],
     showInNavigation: true,
     navigationOrder: 6
@@ -104,7 +104,7 @@ export const PAGE_RULES: PageRule[] = [
     path: '/sponsors',
     name: 'Sponsors',
     description: 'Our festival sponsors and partners',
-    modes: ['public', 'admin'],
+    modes: ['public'],
     requiredRoles: ['anonymous'],
     showInNavigation: true,
     navigationOrder: 7
@@ -113,7 +113,7 @@ export const PAGE_RULES: PageRule[] = [
     path: '/about',
     name: 'About',
     description: 'About the Beverly Hills Film Festival',
-    modes: ['public', 'admin'],
+    modes: ['public'],
     requiredRoles: ['anonymous'],
     showInNavigation: true,
     navigationOrder: 8
@@ -122,7 +122,7 @@ export const PAGE_RULES: PageRule[] = [
     path: '/contact',
     name: 'Contact',
     description: 'Contact information and support',
-    modes: ['public', 'admin'],
+    modes: ['public'],
     requiredRoles: ['anonymous'],
     showInNavigation: true,
     navigationOrder: 9
@@ -133,7 +133,7 @@ export const PAGE_RULES: PageRule[] = [
     path: '/login',
     name: 'Login',
     description: 'User login page',
-    modes: ['public', 'admin'],
+    modes: ['public'],
     requiredRoles: ['anonymous'],
     showInNavigation: false
   },

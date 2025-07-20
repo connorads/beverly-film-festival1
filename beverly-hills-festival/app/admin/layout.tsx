@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/context/auth';
 import { ModeSwitcher } from '@/components/mode-switcher';
 import Link from 'next/link';
@@ -25,12 +25,22 @@ export default function AdminLayout({
 }) {
   const { user, isAuthenticated, isLoading, logout } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  
+  // Check if we're on the login page
+  const isLoginPage = pathname === '/admin/login';
 
   useEffect(() => {
-    if (!isLoading && (!isAuthenticated || user?.role !== 'admin')) {
+    // Don't redirect if we're already on the login page
+    if (!isLoginPage && !isLoading && (!isAuthenticated || user?.role !== 'admin')) {
       router.push('/admin/login');
     }
-  }, [isAuthenticated, isLoading, user, router]);
+  }, [isAuthenticated, isLoading, user, router, isLoginPage]);
+
+  // If we're on the login page, just render children without the admin layout
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
 
   if (isLoading) {
     return (

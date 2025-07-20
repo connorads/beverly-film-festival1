@@ -127,7 +127,11 @@ export default function Home() {
               <Button 
                 variant={mode === 'admin' ? 'secondary' : 'outline'} 
                 size="sm"
-                onClick={() => setMode('admin')}
+                onClick={() => {
+                  setMode('admin');
+                  // Navigate to admin after setting mode
+                  window.location.href = '/admin';
+                }}
                 className="min-w-[140px]"
               >
                 <Users className="mr-2 h-4 w-4" />

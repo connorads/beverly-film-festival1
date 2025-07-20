@@ -1,7 +1,9 @@
 // API Client and Route Definitions for Beverly Hills Film Festival
 
 import type { 
-  User, Film, Venue, Screening, Ticket, Pass, Payment, Review,
+  User, Film, Venue, Screening, Ticket, Pass, Payment, Review
+} from '@/lib/types';
+import type {
   CreateUser, UpdateUser, CreateFilm, UpdateFilm,
   Login, Register, FilmSubmission, FilmSearch, EventSearch
 } from '@/lib/schemas';

@@ -2,16 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { authenticateRequest } from '@/lib/auth';
 
-interface Params {
-  params: {
-    id: string;
-  };
-}
-
 // GET /api/films/[id] - Get a specific film
-export async function GET(request: NextRequest, { params }: Params) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const film = await db.getFilmById(params.id);
+    const { id } = await params;
+    const film = await db.getFilmById(id);
 
     if (!film) {
       return NextResponse.json(
@@ -31,8 +29,12 @@ export async function GET(request: NextRequest, { params }: Params) {
 }
 
 // PATCH /api/films/[id] - Update film (admin or film owner)
-export async function PATCH(request: NextRequest, { params }: Params) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
+    const { id } = await params;
     const auth = await authenticateRequest(request);
     
     if (!auth) {
@@ -42,7 +44,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       );
     }
 
-    const film = await db.getFilmById(params.id);
+    const film = await db.getFilmById(id);
     
     if (!film) {
       return NextResponse.json(
@@ -66,7 +68,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       delete updates.status;
     }
 
-    const updatedFilm = await db.updateFilm(params.id, updates);
+    const updatedFilm = await db.updateFilm(id, updates);
 
     return NextResponse.json(updatedFilm);
   } catch (error) {

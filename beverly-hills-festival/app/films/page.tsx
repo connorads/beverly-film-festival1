@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, Filter } from 'lucide-react';
+import type { FilmStatus } from '@/lib/types';
 
 export default function FilmsPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,9 +17,11 @@ export default function FilmsPage() {
   
   const { films, isLoading, error, refetch } = useFilms({
     params: {
-      search: searchQuery || undefined,
+      query: searchQuery || undefined,
       genre: selectedGenre !== 'all' ? selectedGenre : undefined,
-      status: selectedStatus !== 'all' ? selectedStatus : undefined,
+      status: selectedStatus !== 'all' ? selectedStatus as FilmStatus : undefined,
+      page: 1,
+      limit: 20,
     },
   });
 
@@ -117,13 +120,13 @@ export default function FilmsPage() {
                 key={film.id}
                 id={film.id}
                 title={film.title}
-                director={film.director}
-                genre={film.genre}
-                duration={film.duration}
-                rating={film.rating}
-                posterUrl={film.posterUrl}
+                director={film.directorId}
+                genre={film.genres || []}
+                duration={film.runtime}
+                rating={0}
+                posterUrl={''}
                 synopsis={film.synopsis}
-                isFeature={film.isFeatured}
+                isFeature={film.status === 'scheduled'}
               />
             ))}
           </div>

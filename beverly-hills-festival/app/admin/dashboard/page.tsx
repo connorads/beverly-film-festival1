@@ -150,7 +150,7 @@ export default function AdminDashboardPage() {
                       <div className="space-y-1">
                         <CardTitle>{film.title}</CardTitle>
                         <CardDescription>
-                          Directed by {film.director} • {film.duration} min • {film.genre.join(', ')}
+                          Directed by {film.directorId} • {film.runtime} min • {film.genres?.join(', ')}
                         </CardDescription>
                       </div>
                       <Badge variant="secondary">

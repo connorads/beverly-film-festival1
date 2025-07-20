@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { apiClient } from '@/lib/api-client';
-import type { Ticket } from '@/lib/schemas';
+import type { Ticket } from '@/lib/types';
 
 interface TicketsState {
   tickets: Ticket[];

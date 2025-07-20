@@ -40,7 +40,7 @@ export function ScheduleCard({ event, onRegister }: ScheduleCardProps) {
     }
   }
 
-  const isFull = event.capacity && event.attendees && event.attendees >= event.capacity
+  const isFull = !!(event.capacity && event.attendees && event.attendees >= event.capacity)
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">

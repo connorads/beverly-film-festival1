@@ -41,13 +41,13 @@ export function useFilms(options: UseFilmsOptions = {}) {
         error: response.error?.message || 'Failed to fetch films',
       });
     }
-  }, [params]);
+  }, [JSON.stringify(params)]);
 
   useEffect(() => {
     if (autoFetch) {
       fetchFilms();
     }
-  }, [autoFetch, fetchFilms]);
+  }, [autoFetch, JSON.stringify(params)]);
 
   return {
     ...state,

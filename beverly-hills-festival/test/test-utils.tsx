@@ -3,12 +3,14 @@ import { render as rtlRender } from '@testing-library/react'
 import { SiteModeProvider } from '@/lib/context/site-mode'
 import { AuthProvider } from '@/lib/context/auth'
 
+import { vi } from 'vitest'
+
 // Mock Next.js router context
 const mockRouter = {
-  push: jest.fn(),
-  replace: jest.fn(),
-  prefetch: jest.fn(),
-  back: jest.fn(),
+  push: vi.fn(),
+  replace: vi.fn(),
+  prefetch: vi.fn(),
+  back: vi.fn(),
   pathname: '/',
   query: {},
   asPath: '/',

@@ -117,12 +117,14 @@ interface TokenPayload {
   siteMode: SiteMode;
   permissions: string[];
   sessionId: string;
+  [key: string]: any; // Allow additional properties for JWT
 }
 
 interface RefreshTokenPayload {
   userId: string;
   sessionId: string;
   siteMode: SiteMode;
+  [key: string]: any; // Allow additional properties for JWT
 }
 
 // Session data
@@ -157,7 +159,7 @@ export class AuthService {
       email: user.email,
       role: user.role,
       siteMode,
-      permissions,
+      permissions: [...permissions],
       sessionId,
     };
 
@@ -238,7 +240,7 @@ export class AuthService {
     refreshToken: string,
     rememberMe: boolean = false
   ) {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const cookieNames = COOKIE_NAMES[siteMode];
     
     const cookieOptions = {
@@ -263,7 +265,7 @@ export class AuthService {
 
   // Clear auth cookies
   static async clearAuthCookies(siteMode: SiteMode) {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const cookieNames = COOKIE_NAMES[siteMode];
     
     cookieStore.delete(cookieNames.access);
@@ -273,7 +275,7 @@ export class AuthService {
 
   // Get current user from cookies
   static async getCurrentUser(siteMode: SiteMode): Promise<TokenPayload | null> {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const cookieNames = COOKIE_NAMES[siteMode];
     
     const accessToken = cookieStore.get(cookieNames.access)?.value;
@@ -284,7 +286,7 @@ export class AuthService {
 
   // Refresh access token
   static async refreshAccessToken(siteMode: SiteMode): Promise<string | null> {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const cookieNames = COOKIE_NAMES[siteMode];
     
     const refreshToken = cookieStore.get(cookieNames.refresh)?.value;

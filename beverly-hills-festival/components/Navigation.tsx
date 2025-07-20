@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useSite } from '@/contexts/SiteProvider'
+import { useSiteMode } from '@/lib/context/site-mode'
 import { useAuth } from '@/lib/context/auth'
 import { Button } from '@/components/ui/button'
 import {
@@ -27,7 +27,7 @@ import { cn } from '@/lib/utils'
 import { Film, Calendar, Trophy, User, LogOut, Settings, Menu } from 'lucide-react'
 
 export function Navigation() {
-  const { mode, setMode } = useSite()
+  const { mode, setMode } = useSiteMode()
   const { user, isAuthenticated, logout, isLoading } = useAuth()
   const router = useRouter()
 
@@ -55,7 +55,30 @@ export function Navigation() {
     { href: '/sponsor/benefits', label: 'Benefits' },
   ]
 
-  const currentLinks = mode === 'guest' ? guestLinks : mode === 'filmmaker' ? filmmakerLinks : sponsorLinks
+  // Show different links based on mode and authentication
+  const getNavigationLinks = () => {
+    if (mode === 'admin') {
+      // Admin mode links
+      return [
+        { href: '/admin', label: 'Dashboard' },
+        { href: '/admin/films', label: 'Films' },
+        { href: '/admin/schedule', label: 'Schedule' },
+        { href: '/admin/attendees', label: 'Attendees' },
+        { href: '/admin/analytics', label: 'Analytics' },
+      ];
+    } else if (isAuthenticated && user?.role === 'filmmaker') {
+      // Filmmaker portal links
+      return filmmakerLinks;
+    } else if (isAuthenticated && user?.role === 'sponsor') {
+      // Sponsor portal links  
+      return sponsorLinks;
+    } else {
+      // Public mode links
+      return guestLinks;
+    }
+  };
+
+  const currentLinks = getNavigationLinks();
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -87,20 +110,23 @@ export function Navigation() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm">
-                {mode === 'guest' ? 'Guest' : mode === 'filmmaker' ? 'Filmmaker' : 'Sponsor'}
+                {mode === 'public' ? 'Public' : 'Admin'}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Switch Mode</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setMode('guest')}>
-                Guest Mode
+              <DropdownMenuItem onClick={() => {
+                setMode('public');
+                router.push('/');
+              }}>
+                Public Mode
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setMode('filmmaker')}>
-                Filmmaker Mode
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setMode('sponsor')}>
-                Sponsor Mode
+              <DropdownMenuItem onClick={() => {
+                setMode('admin');
+                router.push('/admin');
+              }}>
+                Admin Mode
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -120,8 +146,8 @@ export function Navigation() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => {
-                  if (mode === 'filmmaker' && user.role === 'filmmaker') {
-                    router.push('/filmmaker/dashboard')
+                  if (user.role === 'filmmaker') {
+                    router.push('/submitter/dashboard')
                   } else if (user.role === 'admin') {
                     router.push('/admin/dashboard')
                   } else {
@@ -144,12 +170,11 @@ export function Navigation() {
           ) : (
             <Button 
               onClick={() => {
-                if (mode === 'filmmaker') {
-                  router.push('/filmmaker/login')
-                } else if (mode === 'sponsor') {
-                  router.push('/sponsor/login')
+                if (mode === 'admin') {
+                  router.push('/admin/login')
                 } else {
-                  router.push('/login')
+                  // For public mode, show portal selection
+                  router.push('/portals')
                 }
               }}
               disabled={isLoading}

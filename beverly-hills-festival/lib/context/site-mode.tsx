@@ -29,16 +29,18 @@ export function SiteModeProvider({ children, initialMode, defaultMode = 'public'
   const pathname = usePathname();
   const router = useRouter();
   
-  // Initialize from localStorage or props
-  const [mode, setModeState] = useState<SiteMode>(() => {
+  // Initialize with default to avoid hydration mismatch
+  const [mode, setModeState] = useState<SiteMode>(initialMode || defaultMode);
+  
+  // Load from localStorage after mount
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('siteMode');
       if (stored === 'admin' || stored === 'public') {
-        return stored;
+        setModeState(stored);
       }
     }
-    return initialMode || defaultMode;
-  });
+  }, []);
 
   // Save to localStorage when mode changes
   useEffect(() => {

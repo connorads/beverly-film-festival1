@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import type { User, SiteMode } from '@/lib/types';
+import type { User, SiteMode, UserRole } from '@/lib/types';
 import { useSiteMode } from './site-mode';
 import { apiClient, setAuthToken, getAuthToken } from '@/lib/api-client';
 import type { Login, Register } from '@/lib/schemas';
@@ -71,7 +71,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await apiClient.auth.login({ email, password });
+      const response = await apiClient.auth.login({ email, password, siteMode });
       
       if (response.ok && response.data) {
         setUser(response.data.user);
@@ -79,7 +79,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
         // Redirect based on role and site mode
         if (siteMode === 'admin' && response.data.user.role === 'admin') {
           router.push('/admin/dashboard');
-        } else if (siteMode === 'filmmaker' && response.data.user.role === 'filmmaker') {
+        } else if (response.data.user.role === 'filmmaker') {
           router.push('/filmmaker/dashboard');
         } else if (response.data.user.role === 'judge') {
           router.push('/judge/dashboard');
@@ -112,7 +112,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
       // Redirect to appropriate login page
       if (siteMode === 'admin') {
         router.push('/admin/login');
-      } else if (siteMode === 'filmmaker') {
+      } else if (siteMode === 'filmmaker' as SiteMode) {
         router.push('/filmmaker/login');
       } else {
         router.push('/login');
@@ -133,7 +133,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
         password: data.password,
         firstName: data.firstName,
         lastName: data.lastName,
-        role: data.role || 'attendee',
+        role: (data.role || 'attendee') as UserRole,
       };
       
       const response = await apiClient.auth.register(registerData);

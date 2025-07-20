@@ -166,7 +166,7 @@ export const MediaFileSchema = BaseEntitySchema.extend({
 export const AwardSchema = z.object({
   name: z.string(),
   festival: z.string(),
-  year: z.number().min(1900).max(new Date().getFullYear() + 1),
+  year: z.number().min(1900, 'Year must be 1900 or later').max(new Date().getFullYear() + 1, 'Year cannot be in the future'),
   category: z.string()
 });
 
@@ -177,7 +177,7 @@ export const FilmSchema = BaseEntitySchema.extend({
   synopsis: z.string().min(50).max(2000),
   logline: z.string().min(20).max(200),
   runtime: z.number().min(1).max(600),
-  releaseYear: z.number().min(1900).max(new Date().getFullYear() + 1),
+  releaseYear: z.number().min(1900, 'Year must be 1900 or later').max(new Date().getFullYear() + 1, 'Year cannot be in the future'),
   countryOfOrigin: z.string().min(2).max(2),
   language: z.string().min(2).max(5),
   subtitles: z.array(z.string()).optional(),
@@ -368,7 +368,7 @@ export const AuthSessionSchema = BaseEntitySchema.extend({
   token: z.string(),
   refreshToken: z.string().optional(),
   expiresAt: z.date(),
-  ipAddress: z.string().ip().optional(),
+  ipAddress: z.string().optional(),
   userAgent: z.string().optional(),
   siteMode: SiteModeSchema
 });
@@ -446,7 +446,7 @@ export const FilmSubmissionSchema = z.object({
   synopsis: z.string().min(50).max(2000),
   logline: z.string().min(20).max(200),
   runtime: z.number().min(1).max(600),
-  releaseYear: z.number().min(1900).max(new Date().getFullYear() + 1),
+  releaseYear: z.number().min(1900, 'Year must be 1900 or later').max(new Date().getFullYear() + 1, 'Year cannot be in the future'),
   
   // Production info
   countryOfOrigin: z.string().min(2).max(2),

@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { 
   Ticket, 
   Calendar, 
@@ -169,7 +170,7 @@ export default function AccountTicketsPage() {
               <Card>
                 <CardContent className="p-12 text-center">
                   <p className="text-muted-foreground">No upcoming screenings</p>
-                </Card>
+                </CardContent>
               </Card>
             ) : (
               upcomingTickets.map((ticket) => (
@@ -248,7 +249,7 @@ export default function AccountTicketsPage() {
               <Card>
                 <CardContent className="p-12 text-center">
                   <p className="text-muted-foreground">No past tickets</p>
-                </Card>
+                </CardContent>
               </Card>
             ) : (
               pastTickets.map((ticket) => (
